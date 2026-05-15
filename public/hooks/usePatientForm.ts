@@ -23,7 +23,7 @@ interface UsePatientFormResult {
     resetForm: () => void;
 }
 
-export function usePatientForm():UsePatientFormResult{
+export function usePatients():UsePatientFormResult{
     const [formData,setFormData]=useState<PatientFormData>(FORM_INIT);
     const [errors,setErrors]=useState<FormErrors>({});
     const [submitting,setSubmitting]=useState(false);
