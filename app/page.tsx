@@ -1,7 +1,7 @@
 
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { PatientForm } from '@/public/Pages/PatientForm';
 import { PatientList } from '@/public/Pages/PatientList';
 import { usePatients } from '@/public/hooks/usePatiens';

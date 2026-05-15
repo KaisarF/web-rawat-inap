@@ -1,5 +1,7 @@
 import { PAGE_SIZE } from '../data/constants';
-
+import { Button } from '@/components/ui/button';
+import { ChevronLeft,ChevronRight } from 'lucide-react';
+import {cn} from '@/lib/utils';
 interface PaginationProps {
   currentPage: number;
   totalPages: number;
@@ -8,44 +10,57 @@ interface PaginationProps {
   hasFilter: boolean;
 }
 
-export function Pagination({ currentPage, totalPages, totalFiltered, onPageChange, hasFilter }: PaginationProps) {
+export function Pagination({ 
+  currentPage, 
+  totalPages, 
+  totalFiltered, 
+  onPageChange, 
+  hasFilter }: PaginationProps) {
   const start = Math.min((currentPage - 1) * PAGE_SIZE + 1, totalFiltered);
   const end = Math.min(currentPage * PAGE_SIZE, totalFiltered);
 
   return (
-    <div className="pagination">
-      <span className="pag-info">
+    <div className="flex items-center justify-between py-3">
+      <span className="text-xs text-muted-foreground">
         Menampilkan {start}–{end} dari {totalFiltered} pasien{hasFilter ? ' (difilter)' : ''}
       </span>
-      <div className="pag-btns" role="navigation" aria-label="Navigasi halaman">
-        <button
-          className="pag-btn"
+
+      <nav  className="flex items-center gap-2" role="navigation" aria-label="Navigasi halaman">
+        <Button
+          variant="outline"
+          size="sm"
           onClick={() => onPageChange(currentPage - 1)}
           disabled={currentPage <= 1}
           aria-label="Halaman sebelumnya"
         >
-          ‹
-        </button>
+          <ChevronLeft className="size-4" aria-hidden="true" />
+        </Button>
         {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
-          <button
+          <Button
             key={page}
-            className={`pag-btn${page === currentPage ? ' active' : ''}`}
+            variant="outline"
+            size="icon"
+            className={cn(
+              'size-8 text-xs',
+              page === currentPage && 'bg-blue-600 text-white border-blue-600 hover:bg-blue-700 hover:text-white'
+            )}
             onClick={() => onPageChange(page)}
             aria-label={`Halaman ${page}`}
             aria-current={page === currentPage ? 'page' : undefined}
           >
             {page}
-          </button>
+          </Button>
         ))}
-        <button
-          className="pag-btn"
+        <Button
+          variant="outline"
+          size="sm"
           onClick={() => onPageChange(currentPage + 1)}
           disabled={currentPage >= totalPages}
           aria-label="Halaman berikutnya"
         >
-          ›
-        </button>
-      </div>
+          <ChevronRight className="size-4" aria-hidden="true" />
+        </Button>
+      </nav>
     </div>
   );
-}
+};
